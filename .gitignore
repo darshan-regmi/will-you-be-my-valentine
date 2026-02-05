@@ -10,3 +10,11 @@ node_modules/
 .next/
 .env*.local
 .DS_Store
+
+# Build output
+out/
+dist/
+
+# Wrangler
+.wrangler/
+wrangler.toml
