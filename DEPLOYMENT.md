@@ -60,7 +60,7 @@ NEXT_PUBLIC_FIREBASE_APP_ID
 4. After adding the variables, redeploy:
 
 ```bash
-npx wrangler pages deploy out --project-name=valentine-proposal
+npx wrangler pages deploy out --project-name=valentine
 ```
 
 ## Quick Deploy Script
@@ -68,14 +68,14 @@ npx wrangler pages deploy out --project-name=valentine-proposal
 For future deployments, you can use this one-liner:
 
 ```bash
-pnpm build && npx wrangler pages deploy out --project-name=valentine-proposal
+pnpm build && npx wrangler pages deploy out --project-name=valentine
 ```
 
 ## Your Site is Live! 🎉
 
 After deployment, Wrangler will give you a URL like:
 ```
-https://valentine-proposal.pages.dev
+https://valentine.pages.dev
 ```
 
 You can also set up a custom domain in the Cloudflare dashboard.
@@ -84,7 +84,7 @@ You can also set up a custom domain in the Cloudflare dashboard.
 
 **Pro Tip:** If you want to preview before deploying to production, use:
 ```bash
-npx wrangler pages deploy out --project-name=valentine-proposal --branch=preview
+npx wrangler pages deploy out --project-name=valentine --branch=preview
 ```
 
 Good luck with your proposal! 🌹❤️
