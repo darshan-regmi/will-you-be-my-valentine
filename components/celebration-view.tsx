@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import Confetti from '@/components/confetti'
 import FloatingHearts from '@/components/floating-hearts'
 import { playCelebrationSound } from '@/lib/sound-effects'
+import { Heart } from 'lucide-react'
 
 export default function CelebrationView() {
   const [showContent, setShowContent] = useState(false)
@@ -25,12 +26,11 @@ export default function CelebrationView() {
       `}</style>
 
       <div
-        className={`text-center z-20 transform transition-all duration-1000 ${
-          showContent ? 'scale-100 opacity-100' : 'scale-0 opacity-0'
-        }`}
+        className={`text-center z-20 transform transition-all duration-1000 ${showContent ? 'scale-100 opacity-100' : 'scale-0 opacity-0'
+          }`}
       >
-        <h1 className="font-playfair text-6xl md:text-8xl font-bold text-primary mb-4 drop-shadow-lg animate-bounce-heart">
-          YAY ❤️
+        <h1 className="font-playfair text-6xl md:text-8xl font-bold text-primary mb-4 drop-shadow-lg animate-bounce-heart flex items-center justify-center gap-4">
+          YAY <Heart size={64} fill="currentColor" />
         </h1>
         <p className="font-playfair text-4xl md:text-5xl text-foreground mb-8 drop-shadow-md">
           I knew it.
@@ -39,7 +39,7 @@ export default function CelebrationView() {
           Valentine secured.
         </p>
         <p className="font-lora text-xl text-foreground/60 italic">
-          Now go tell me yes in real life too 😌
+          Now go tell me yes in real life too
         </p>
       </div>
     </div>

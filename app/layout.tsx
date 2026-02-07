@@ -1,27 +1,29 @@
 import React from "react"
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
+import { SafeRepeat } from '@/components/safe-repeat'
 import { Playfair_Display, Lora } from 'next/font/google'
 
 import './globals.css'
 
-const playfair = Playfair_Display({ 
+const playfair = Playfair_Display({
   subsets: ['latin'],
   variable: '--font-playfair',
 })
 
-const lora = Lora({ 
+const lora = Lora({
   subsets: ['latin'],
   variable: '--font-lora',
 })
 
 export const metadata: Metadata = {
-  title: 'Will You Be My Valentine?',
-  description: 'A heartfelt Valentine proposal with a touch of playfulness',
+  title: "Valentine's Week 2026 - A Week of Love",
+  description: 'Experience a magical Valentine\'s Week with daily unlockable experiences, mini-games, and heartfelt moments',
   generator: 'v0.app',
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-  },
+}
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
 }
 
 export default function RootLayout({
@@ -39,7 +41,10 @@ export default function RootLayout({
           }
         `}</style>
       </head>
-      <body className="font-lora antialiased bg-gradient-to-br from-pink-100 via-lavender-100 to-rose-50">{children}</body>
+      <body className="font-lora antialiased bg-gradient-to-br from-pink-100 via-lavender-100 to-rose-50">
+        <SafeRepeat />
+        {children}
+      </body>
     </html>
   )
 }
