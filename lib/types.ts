@@ -44,6 +44,8 @@ export interface TeddyDayResult {
     color: 'brown' | 'pink' | 'white';
     mood: 'happy' | 'shy' | 'loving';
     accessory: 'bow' | 'heart' | 'flower';
+    moodColor?: string;
+    accessoryColor?: string;
 }
 
 export interface PromiseDayResult {

@@ -140,6 +140,14 @@ export const TEDDY_OPTIONS = {
         { id: 'heart', name: 'Heart', icon: Heart },
         { id: 'flower', name: 'Flower', icon: Flower2 },
     ],
+    decorationColors: [
+        { id: 'red', name: 'Red', hex: '#EF4444', class: 'text-red-500' },
+        { id: 'pink', name: 'Pink', hex: '#EC4899', class: 'text-pink-500' },
+        { id: 'rose', name: 'Rose', hex: '#E11D48', class: 'text-rose-600' },
+        { id: 'purple', name: 'Purple', hex: '#9333EA', class: 'text-purple-600' },
+        { id: 'blue', name: 'Blue', hex: '#2563EB', class: 'text-blue-600' },
+        { id: 'gold', name: 'Gold', hex: '#D97706', class: 'text-amber-600' },
+    ],
 };
 
 // Promise Day Templates

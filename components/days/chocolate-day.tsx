@@ -245,7 +245,7 @@ export default function ChocolateDay({ onComplete, onBack }: ChocolateDayProps) 
                                 <Button
                                     onClick={handleSave}
                                     disabled={saving}
-                                    className="bg-brown-500 hover:bg-brown-600 text-white px-8 py-6 text-lg w-full"
+                                    className="bg-brown-500 hover:bg-brown-600 text-black px-8 py-6 text-lg w-full"
                                 >
                                     {saving ? 'Saving...' : 'Continue'}
                                     <Heart className="ml-2" size={20} fill="currentColor" />

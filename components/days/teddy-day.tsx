@@ -18,6 +18,11 @@ export default function TeddyDay({ onComplete, onBack }: TeddyDayProps) {
     const [color, setColor] = useState<'brown' | 'pink' | 'white'>('brown');
     const [mood, setMood] = useState<'happy' | 'shy' | 'loving'>('happy');
     const [accessory, setAccessory] = useState<'bow' | 'heart' | 'flower'>('bow');
+
+    // Default colors for mood and accessory
+    const [moodColor, setMoodColor] = useState('pink');
+    const [accessoryColor, setAccessoryColor] = useState('red');
+
     const [saving, setSaving] = useState(false);
 
     async function handleSave() {
@@ -28,6 +33,8 @@ export default function TeddyDay({ onComplete, onBack }: TeddyDayProps) {
             color,
             mood,
             accessory,
+            moodColor,
+            accessoryColor,
         };
 
         await saveDayProgress(userId, 'teddy-day', result);
@@ -41,6 +48,28 @@ export default function TeddyDay({ onComplete, onBack }: TeddyDayProps) {
     const selectedColorData = TEDDY_OPTIONS.colors.find(c => c.id === color);
     const selectedMoodData = TEDDY_OPTIONS.moods.find(m => m.id === mood);
     const selectedAccessoryData = TEDDY_OPTIONS.accessories.find(a => a.id === accessory);
+
+    const selectedMoodColorData = TEDDY_OPTIONS.decorationColors?.find(c => c.id === moodColor);
+    const selectedAccessoryColorData = TEDDY_OPTIONS.decorationColors?.find(c => c.id === accessoryColor);
+
+    // Color picker component for reuse
+    const ColorPicker = ({ selectedId, onSelect, label }: { selectedId: string, onSelect: (id: string) => void, label: string }) => (
+        <div className="mt-4">
+            <h4 className="text-sm font-semibold text-gray-700 mb-2">{label}</h4>
+            <div className="flex flex-wrap gap-2">
+                {TEDDY_OPTIONS.decorationColors?.map((c) => (
+                    <button
+                        key={c.id}
+                        onClick={() => onSelect(c.id)}
+                        className={`w-8 h-8 rounded-full border-2 transition-transform hover:scale-110 ${selectedId === c.id ? 'border-gray-800 scale-110' : 'border-transparent'}`}
+                        style={{ backgroundColor: c.hex }}
+                        title={c.name}
+                        aria-label={`Select ${c.name} color`}
+                    />
+                ))}
+            </div>
+        </div>
+    );
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-purple-100 via-pink-100 to-rose-50 py-12 px-4">
@@ -89,17 +118,29 @@ export default function TeddyDay({ onComplete, onBack }: TeddyDayProps) {
                             className="relative"
                         >
                             {/* Teddy Bear Visualization */}
-                            <div className="text-pink-500 mb-4">
-                                <Smile size={128} />
+                            <div
+                                className="mb-4 transition-colors duration-300"
+                                style={{
+                                    color: selectedColorData?.hex || '#FFB6C1',
+                                    filter: 'drop-shadow(0px 4px 6px rgba(0,0,0,0.1))'
+                                }}
+                            >
+                                <Smile size={128} strokeWidth={1.5} />
                             </div>
 
                             {/* Mood Icon Overlay */}
-                            <div className="absolute top-0 right-0 text-pink-600">
+                            <div
+                                className="absolute top-0 right-0 transition-colors duration-300"
+                                style={{ color: selectedMoodColorData?.hex || '#EC4899' }}
+                            >
                                 {selectedMoodData && <selectedMoodData.icon size={48} />}
                             </div>
 
                             {/* Accessory Icon Overlay */}
-                            <div className="absolute bottom-0 left-0 text-pink-700">
+                            <div
+                                className="absolute bottom-0 left-0 transition-colors duration-300"
+                                style={{ color: selectedAccessoryColorData?.hex || '#EF4444' }}
+                            >
                                 {selectedAccessoryData && <selectedAccessoryData.icon size={48} />}
                             </div>
                         </motion.div>
@@ -109,10 +150,10 @@ export default function TeddyDay({ onComplete, onBack }: TeddyDayProps) {
                                 <strong>Color:</strong> {selectedColorData?.name}
                             </p>
                             <p className="text-sm text-gray-600">
-                                <strong>Mood:</strong> {selectedMoodData?.name}
+                                <strong>Mood:</strong> {selectedMoodData?.name} ({selectedMoodColorData?.name})
                             </p>
                             <p className="text-sm text-gray-600">
-                                <strong>Accessory:</strong> {selectedAccessoryData?.name}
+                                <strong>Accessory:</strong> {selectedAccessoryData?.name} ({selectedAccessoryColorData?.name})
                             </p>
                         </div>
                     </motion.div>
@@ -159,7 +200,7 @@ export default function TeddyDay({ onComplete, onBack }: TeddyDayProps) {
                             <h3 className="font-playfair text-xl font-bold text-gray-800 mb-4">
                                 Choose Mood
                             </h3>
-                            <div className="grid grid-cols-3 gap-3">
+                            <div className="grid grid-cols-3 gap-3 mb-4">
                                 {TEDDY_OPTIONS.moods.map((moodOption, index) => (
                                     <motion.button
                                         key={moodOption.id}
@@ -177,7 +218,10 @@ export default function TeddyDay({ onComplete, onBack }: TeddyDayProps) {
                                             }
                     `}
                                     >
-                                        <div className="text-pink-500 mb-2 flex justify-center">
+                                        <div
+                                            className="mb-2 flex justify-center transition-colors duration-300"
+                                            style={{ color: mood === moodOption.id ? (selectedMoodColorData?.hex || '#EC4899') : '#EC4899' }}
+                                        >
                                             <moodOption.icon size={32} />
                                         </div>
                                         <p className="text-sm font-semibold text-gray-800">
@@ -186,6 +230,11 @@ export default function TeddyDay({ onComplete, onBack }: TeddyDayProps) {
                                     </motion.button>
                                 ))}
                             </div>
+                            <ColorPicker
+                                label="Mood Color"
+                                selectedId={moodColor}
+                                onSelect={setMoodColor}
+                            />
                         </div>
 
                         {/* Accessory Selection */}
@@ -193,7 +242,7 @@ export default function TeddyDay({ onComplete, onBack }: TeddyDayProps) {
                             <h3 className="font-playfair text-xl font-bold text-gray-800 mb-4">
                                 Choose Accessory
                             </h3>
-                            <div className="grid grid-cols-3 gap-3">
+                            <div className="grid grid-cols-3 gap-3 mb-4">
                                 {TEDDY_OPTIONS.accessories.map((accessoryOption, index) => (
                                     <motion.button
                                         key={accessoryOption.id}
@@ -211,7 +260,10 @@ export default function TeddyDay({ onComplete, onBack }: TeddyDayProps) {
                                             }
                     `}
                                     >
-                                        <div className="text-pink-500 mb-2 flex justify-center">
+                                        <div
+                                            className="mb-2 flex justify-center transition-colors duration-300"
+                                            style={{ color: accessory === accessoryOption.id ? (selectedAccessoryColorData?.hex || '#EF4444') : '#EF4444' }}
+                                        >
                                             <accessoryOption.icon size={32} />
                                         </div>
                                         <p className="text-sm font-semibold text-gray-800">
@@ -220,6 +272,11 @@ export default function TeddyDay({ onComplete, onBack }: TeddyDayProps) {
                                     </motion.button>
                                 ))}
                             </div>
+                            <ColorPicker
+                                label="Accessory Color"
+                                selectedId={accessoryColor}
+                                onSelect={setAccessoryColor}
+                            />
                         </div>
 
                         {/* Save Button */}
